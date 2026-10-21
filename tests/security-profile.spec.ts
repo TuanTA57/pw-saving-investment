@@ -1,23 +1,37 @@
-import { test, expect, Page } from '@playwright/test';
-import { selectDropdownOptionByLabel, clickButtonByLabel, login, selectMenuByLabel, verifyHeadingPage, selectTabByLabel, clickButtonByDescription, verifyHeadingModal, inputTextboxByLabel, verifyHeadingDialog, verifyContentDialog } from '../src/common';
+import { test, expect } from '@playwright/test';
+import { LOGIN_URL, PASSWORD, USERNAME } from '../src/utils/constant-utils';
+import { LoginPage } from '../src/pages/login-page';
+import { HomePage } from '../src/pages/home-page';
+import { MaintenancePage } from '../src/pages/maintenance-page';
+let loginPage: LoginPage;
+let homePage: HomePage;
+let maintanancePage: MaintenancePage;
+
+test.beforeEach('Setup', async ({ page }) => {
+    loginPage = new LoginPage(page);
+    homePage = new HomePage(page);
+    maintanancePage = new MaintenancePage(page);
+})
 
 test('Verify security profile successfully', async ({ page }) => {
-    await page.goto('http://localhost:4200/login?from=%2Fhome');
-    await selectDropdownOptionByLabel('Select Domain', 'epic-test-client - Native application', page);
-    await clickButtonByLabel('Login', page);
-    await login('Testautomatisering@able.eu', 'uCRwAtzz6tVezXrV', page);
+    await page.goto(LOGIN_URL);
+
+    await loginPage.selectDropdownOptionByLabel('Select Domain', 'epic-test-client - Native application');
+    await loginPage.clickButtonByLabel('Login');
+    await loginPage.login(USERNAME, PASSWORD);
+
     await expect(page.locator('.topicus-logo-text')).toBeVisible();
-    await selectMenuByLabel('Adviseur', 'Onderhoud', page);
-    await verifyHeadingPage('Onderhoud / Overzicht', page);
-    await selectTabByLabel('Beveiligings profiel', page);
+    await homePage.selectMenuByLabel('Adviseur', 'Onderhoud');
+    await maintanancePage.verifyHeadingPage('Onderhoud / Overzicht');
+    await maintanancePage.selectTabByLabel('Beveiligings profiel');
     await expect(page.getByText('Onderhoud / Beveiligings profiel')).toBeVisible();
-    await clickButtonByDescription('beveiligings profiel toevoegen', page);
-    await verifyHeadingModal('Beveiligingsprofiel', page);
+    await maintanancePage.clickButtonByDescription('beveiligings profiel toevoegen');
+    await maintanancePage.verifyHeadingModal('Beveiligingsprofiel');
     const description = `Tuan - ${new Date().getTime()}`;
-    await inputTextboxByLabel('Omschrijving', description, page);
-    await inputTextboxByLabel('Externe code', description, page);
-    await clickButtonByDescription('Opslaan', page);
-    await verifyHeadingDialog('Beveiligingsprofiel toegevoegd', page);
-    await verifyContentDialog('Beveiligingsprofiel is succesvol toegevoegd', page);
-    await clickButtonByLabel('Sluiten', page);
+    await maintanancePage.inputTextboxByLabel('Omschrijving', description);
+    await maintanancePage.inputTextboxByLabel('Externe code', description);
+    await maintanancePage.clickButtonByDescription('Opslaan');
+    await maintanancePage.verifyHeadingDialog('Beveiligingsprofiel toegevoegd');
+    await maintanancePage.verifyContentDialog('Beveiligingsprofiel is succesvol toegevoegd');
+    await maintanancePage.clickButtonByLabel('Sluiten');
 });

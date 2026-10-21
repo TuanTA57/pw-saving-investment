@@ -1,35 +1,51 @@
-import { test, expect, Page } from '@playwright/test';
-import { selectDropdownOptionByLabel, clickButtonByLabel, login, selectMenuByLabel, verifyHeadingPage, selectTabByLabel, clickButtonByDescription, verifyHeadingModal, inputTextboxByLabel, selectDropdownOptionsByLabel, verifyHeadingDialog, verifyContentDialog, viewDetailsByUniqueCellValue, getExpansionDataByLabel, sortJson } from '../src/common';
+import { test, expect } from '@playwright/test';
+import { sortJson } from '../src/utils/json-utils';
+import { LOGIN_URL, PASSWORD, USERNAME } from '../src/utils/constant-utils';
+import { LoginPage } from '../src/pages/login-page';
+import { HomePage } from '../src/pages/home-page';
+import { MaintenancePage } from '../src/pages/maintenance-page';
+let loginPage: LoginPage;
+let homePage: HomePage;
+let maintanancePage: MaintenancePage;
+
+test.beforeEach('Setup', async ({ page }) => {
+    loginPage = new LoginPage(page);
+    homePage = new HomePage(page);
+    maintanancePage = new MaintenancePage(page);
+})
 
 test('Verify archive profile successfully', async ({ page }) => {
-    await page.goto('http://localhost:4200/login?from=%2Fhome');
-    await selectDropdownOptionByLabel('Select Domain', 'epic-test-client - Native application', page);
-    await clickButtonByLabel('Login', page);
-    await login('Testautomatisering@able.eu', 'uCRwAtzz6tVezXrV', page);
+    await page.goto(LOGIN_URL);
+
+    await loginPage.selectDropdownOptionByLabel('Select Domain', 'epic-test-client - Native application');
+    await loginPage.clickButtonByLabel('Login');
+    await loginPage.login(USERNAME, PASSWORD);
     await expect(page.locator('.topicus-logo-text')).toBeVisible();
-    await selectMenuByLabel('Adviseur', 'Onderhoud', page);
-    await verifyHeadingPage('Onderhoud / Overzicht', page);
-    await selectTabByLabel('Archief profiel', page);
+    await homePage.selectMenuByLabel('Adviseur', 'Onderhoud');
+
+    await maintanancePage.verifyHeadingPage('Onderhoud / Overzicht');
+    await maintanancePage.selectTabByLabel('Archief profiel');
     await expect(page.getByText('Onderhoud / Archief profiel')).toBeVisible();
-    await clickButtonByDescription('Archief profiel toevoegen', page);
-    await verifyHeadingModal('Archief profiel', page);
+
+    await maintanancePage.clickButtonByDescription('Archief profiel toevoegen');
+    await maintanancePage.verifyHeadingModal('Archief profiel');
     const description = `Tuan - ${new Date().getTime()}`;
-    await inputTextboxByLabel('Omschrijving', description, page);
-    await inputTextboxByLabel('Externe code', '1234', page);
+    await maintanancePage.inputTextboxByLabel('Omschrijving', description);
+    await maintanancePage.inputTextboxByLabel('Externe code', '1234');
     let docmumentTypes = ['AFAT - Afloop AT Controle Proces', 'ANAV - Aanmelding AVA'];
-    await selectDropdownOptionsByLabel('Document type', docmumentTypes, page);
-    await clickButtonByDescription('Opslaan', page);
-    await verifyHeadingDialog('Archief profiel toegevoegd', page);
-    await verifyContentDialog('Archief profiel succesvol toegevoegd', page);
-    await clickButtonByLabel('Sluiten', page);
-    await viewDetailsByUniqueCellValue(description, page);
-    await verifyHeadingPage(/^Onderhoud *\/ *Archief profiel (\d+) *\/ *Details$/, page);
+    await maintanancePage.selectDropdownOptionsByLabel('Document type', docmumentTypes);
+    await maintanancePage.clickButtonByDescription('Opslaan');
+    await maintanancePage.verifyHeadingDialog('Archief profiel toegevoegd');
+    await maintanancePage.verifyContentDialog('Archief profiel succesvol toegevoegd');
+    await maintanancePage.clickButtonByLabel('Sluiten');
+    await maintanancePage.viewDetailsByUniqueCellValue(description);
+    await maintanancePage.verifyHeadingPage(/^Onderhoud *\/ *Archief profiel (\d+) *\/ *Details$/);
     const expectedDescriptionRegex = new RegExp(`Omschrijving\\s*${description}`);
     await expect(page.getByText(expectedDescriptionRegex)).toBeVisible();
     await expect(page.getByText('Externe code  1234')).toBeVisible();
-    const actualDocumentTypeValues = await getExpansionDataByLabel('Document types', ['Type'], page);
-    let expectedDocumentTypes = docmumentTypes.map( value => {
-        return { Type: value}
+    const actualDocumentTypeValues = await maintanancePage.getExpansionDataByLabel('Document types', ['Type']);
+    let expectedDocumentTypes = docmumentTypes.map(value => {
+        return { Type: value }
     });
     expect(actualDocumentTypeValues.length).toEqual(docmumentTypes.length);
     expect(sortJson(actualDocumentTypeValues)).toEqual(expect.arrayContaining(sortJson(expectedDocumentTypes)));
