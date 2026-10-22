@@ -1,4 +1,4 @@
-import { expect, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 
 export class CommonPage {
     page: Page;
@@ -7,8 +7,13 @@ export class CommonPage {
     }
     async getExpansionDataByLabel(label: string, expectedHeaders: string[]) {
         let panelTitleXpath = `//mat-expansion-panel[.//mat-panel-title[normalize-space()='${label}']]`;
-        let panelTitleLocator = this.page.locator(panelTitleXpath);
-        let tableLocator = panelTitleLocator.locator('mat-table');
+        return await this.getMatTableData(panelTitleXpath, expectedHeaders);
+    }
+
+    async getMatTableData(rootXpath: 'root' | string, expectedHeaders: string[]) {
+        let xpath = rootXpath == 'root' ? ":root" : rootXpath;
+        let rootLocator = this.page.locator(xpath);
+        let tableLocator = rootLocator.locator('mat-table');
         let rawActualHeaders = await tableLocator.locator('mat-header-cell').allTextContents();
         let actualHeaders = rawActualHeaders.map(header => header.trim());
         let actualHeaderMapping = [];
@@ -34,14 +39,19 @@ export class CommonPage {
         return data;
     }
 
-    async viewDetailsByUniqueCellValue(cellValue: string) {
+    async getRowLocatorByUniqueCellValue(cellValue: string) {
         let rowXpath = `//mat-row[@role='row' and .//mat-cell[normalize-space()='${cellValue}']]`;
-        await this.page.locator(rowXpath).click();
+        return this.page.locator(rowXpath);
+    }
+
+    async viewDetailsByUniqueCellValue(cellValue: string) {
+        let rowLocator = await this.getRowLocatorByUniqueCellValue(cellValue);
+        await rowLocator.click();
     }
 
     async clickButtonByUniqueCellValue(cellValue: string, buttonDescription: string) {
-        let rowXpath = `//mat-row[@role='row' and .//mat-cell[normalize-space()='${cellValue}']]`;
-        this.clickButtonByDescription(buttonDescription);
+        let rowLocator = await this.getRowLocatorByUniqueCellValue(cellValue);
+        await rowLocator.getByRole('button', { description: buttonDescription }).click();
     }
 
     async verifyHeadingDialog(heading: string) {
