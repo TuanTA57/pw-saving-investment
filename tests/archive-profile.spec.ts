@@ -43,7 +43,7 @@ test('Verify archive profile successfully', async ({ page }) => {
     const expectedDescriptionRegex = new RegExp(`Omschrijving\\s*${description}`);
     await expect(page.getByText(expectedDescriptionRegex)).toBeVisible();
     await expect(page.getByText('Externe code  1234')).toBeVisible();
-    const actualDocumentTypeValues = await maintanancePage.getExpansionDataByLabel('Document types', ['Type']);
+    const actualDocumentTypeValues = await maintanancePage.getExpansionTableDataByLabel('Document types', ['Type']);
     let expectedDocumentTypes = docmumentTypes.map(value => {
         return { Type: value }
     });

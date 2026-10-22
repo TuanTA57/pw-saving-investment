@@ -11,7 +11,7 @@ test.beforeEach('Setup', async ({ page }) => {
     loginPage = new LoginPage(page);
     homePage = new HomePage(page);
     maintanancePage = new MaintenancePage(page);
-})
+});
 
 test('Verify security profile successfully', async ({ page }) => {
     await page.goto(LOGIN_URL);
@@ -34,4 +34,5 @@ test('Verify security profile successfully', async ({ page }) => {
     await maintanancePage.verifyHeadingDialog('Beveiligingsprofiel toegevoegd');
     await maintanancePage.verifyContentDialog('Beveiligingsprofiel is succesvol toegevoegd');
     await maintanancePage.clickButtonByLabel('Sluiten');
+    console.log(await maintanancePage.getMatTableData('root', ['ID', 'Omschrijving', 'Externe code']));
 });
