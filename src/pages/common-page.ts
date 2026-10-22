@@ -65,7 +65,8 @@ export class CommonPage {
     }
 
     async verifyContentDialog(content: string) {
-        await expect(this.page.locator('mat-dialog-content')).toHaveText(content);
+        let contentDialogXpath = `//mat-dialog-content//p`;
+        await expect(this.page.locator(contentDialogXpath)).toHaveText(content);
     }
 
     async clickButtonByDescription(description: string) {
@@ -124,5 +125,10 @@ export class CommonPage {
     async inputTextboxByLabel(label: string, input: string) {
         let textboxXpath = `(//label[normalize-space()='${label}']/following::input)[1]`;
         await this.page.locator(textboxXpath).fill(input);
+    }
+
+    async inputTextareaByLabel(label: string, input: string) {
+        let textareaXpath = `(//label[normalize-space()='${label}']//following::textarea)[1]`;
+        await this.page.locator(textareaXpath).fill(input);
     }
 }
