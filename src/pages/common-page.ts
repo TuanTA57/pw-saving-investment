@@ -5,9 +5,14 @@ export class CommonPage {
     constructor(page: Page) {
         this.page = page;
     }
-    async getExpansionDataByLabel(label: string, expectedHeaders: string[]) {
+    async getExpansionTableDataByLabel(label: string, expectedHeaders: string[]) {
         let panelTitleXpath = `//mat-expansion-panel[.//mat-panel-title[normalize-space()='${label}']]`;
         return await this.getMatTableData(panelTitleXpath, expectedHeaders);
+    }
+
+    async getCardTableDataByLabel(label: string, expectedHeaders: string[]) {
+        let cardTitleXpath = `//mat-card[.//mat-card-title[normalize-space()='${label}']]`;
+        return await this.getMatTableData(cardTitleXpath, expectedHeaders);
     }
 
     async getMatTableData(rootXpath: 'root' | string, expectedHeaders: string[]) {
