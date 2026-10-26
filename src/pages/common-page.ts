@@ -127,7 +127,10 @@ export abstract class CommonPage {
 
     async inputTextboxByLabel(label: string, input: string) {
         let textboxXpath = `(//label[normalize-space()='${label}']/following::input)[1]`;
-        await this.page.locator(textboxXpath).fill(input);
+        let textboxLocator = this.page.locator(textboxXpath);
+        await textboxLocator.click();
+        await textboxLocator.clear();
+        await textboxLocator.fill(input);
     }
 
     async inputTextareaByLabel(label: string, input: string) {
