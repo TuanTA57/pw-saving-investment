@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 export abstract class CommonPage {
     page: Page;
@@ -27,7 +27,7 @@ export abstract class CommonPage {
         let actualHeaderMapping = [];
         let data = [];
         for (let i = 0; i < expectedHeaders.length; i++) {
-            let actualIndex = actualHeaders.indexOf(expectedHeaders[i]);
+            let actualIndex = actualHeaders.indexOf(expectedHeaders[i] || '');
             let actualHeaderObj = {
                 key: expectedHeaders[i],
                 actualIndex: actualIndex
@@ -40,7 +40,7 @@ export abstract class CommonPage {
             for (let actualHeaderObj of actualHeaderMapping) {
                 let cellXpath = `//mat-cell[${actualHeaderObj.actualIndex + 1}]`;
                 let cellValue = (await row.locator(cellXpath).textContent())?.trim();
-                rowDataObj[actualHeaderObj.key] = cellValue;
+                rowDataObj[actualHeaderObj.key || ''] = cellValue;
             }
             data.push(rowDataObj);
         }
