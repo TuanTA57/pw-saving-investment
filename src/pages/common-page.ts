@@ -1,10 +1,13 @@
 import { expect, Locator, Page } from '@playwright/test';
 
-export class CommonPage {
+export abstract class CommonPage {
     page: Page;
     constructor(page: Page) {
         this.page = page;
     }
+
+    abstract onPage(): void;
+
     async getExpansionTableDataByLabel(label: string, expectedHeaders: string[]) {
         let panelTitleXpath = `//mat-expansion-panel[.//mat-panel-title[normalize-space()='${label}']]`;
         return await this.getMatTableData(panelTitleXpath, expectedHeaders);

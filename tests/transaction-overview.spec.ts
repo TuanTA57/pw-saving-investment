@@ -33,7 +33,7 @@ test.describe('Verify reverse action', () => {
         await transactionOverviewPage.clickButtonByLabel('Sluiten');
     });
     
-    test('Verify reverse transaction when inputing description', async () => {
+    test('Verify reverse transaction when inputing only description', async () => {
         await transactionOverviewPage.clickButtonByUniqueCellValue('194250734', 'Storneren');
         await transactionOverviewPage.inputTextareaByLabel('Omschrijving', 'Input value for only description');
         await transactionOverviewPage.clickButtonByLabel('Opslaan');

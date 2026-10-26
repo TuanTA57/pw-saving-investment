@@ -5,4 +5,8 @@ export class MaintenancePage extends CommonPage {
     constructor(page: Page) {
         super(page);
     }
+
+    async onPage() {
+        await this.verifyHeadingPage('Onderhoud / Overzicht');
+    }
 }
