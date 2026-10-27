@@ -6,6 +6,6 @@ export class TransactionOverviewPage extends CommonPage {
         super(page);
     }
     async onPage() {
-        await this.verifyHeadingPage('Transactie overzicht');
+        await this.verifyPageHeading('Transactie overzicht');
     }
 }

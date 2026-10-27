@@ -25,8 +25,8 @@ test('Verify security profile successfully', async ({ page }) => {
     await ui.maintenancePage.inputTextboxByLabel('Omschrijving', description);
     await ui.maintenancePage.inputTextboxByLabel('Externe code', description);
     await ui.maintenancePage.clickButtonByDescription('Opslaan');
-    await ui.maintenancePage.verifyHeadingDialog('Beveiligingsprofiel toegevoegd');
-    await ui.maintenancePage.verifyContentDialog('Beveiligingsprofiel is succesvol toegevoegd');
+    await ui.maintenancePage.verifyDialogHeading('Beveiligingsprofiel toegevoegd');
+    await ui.maintenancePage.verifyDialogContent('Beveiligingsprofiel is succesvol toegevoegd');
     await ui.maintenancePage.clickButtonByLabel('Sluiten');
     console.log(await ui.maintenancePage.getMatTableData('root', ['ID', 'Omschrijving', 'Externe code']));
 });

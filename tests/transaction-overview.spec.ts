@@ -19,14 +19,14 @@ test.describe('Verify reverse action', () => {
 
     test('Verify reverse transaction when selecting reversal reason', async ({ page }) => {
         await ui.transactionOverviewPage.clickButtonByUniqueCellValue('194250802', 'Storneren');
-        await ui.transactionOverviewPage.verifyHeadingDialog('Storneer transactie');
-        await ui.transactionOverviewPage.verifyContentDialog('Weet u zeker dat u transactie no 194250802 wilt storneren?');
+        await ui.transactionOverviewPage.verifyDialogHeading('Storneer transactie');
+        await ui.transactionOverviewPage.verifyDialogContent('Weet u zeker dat u transactie no 194250802 wilt storneren?');
         await ui.transactionOverviewPage.selectDropdownOptionByLabel('Storno reden', 'Correctie gemaakt n.a.v. klacht IM');
         let descriptionLocator = page.locator(`(//label[normalize-space()='Omschrijving']//following::textarea)[1]`);
         await expect(descriptionLocator).toHaveValue('Correctie gemaakt n.a.v. klacht IM');
         await ui.transactionOverviewPage.clickButtonByLabel('Opslaan');
-        await ui.transactionOverviewPage.verifyHeadingDialog('Transactie gestorneerd');
-        await ui.transactionOverviewPage.verifyContentDialog('Transactie no 194250802 is succesvol gestorneerd!');
+        await ui.transactionOverviewPage.verifyDialogHeading('Transactie gestorneerd');
+        await ui.transactionOverviewPage.verifyDialogContent('Transactie no 194250802 is succesvol gestorneerd!');
         await ui.transactionOverviewPage.clickButtonByLabel('Sluiten');
     });
 
@@ -34,8 +34,8 @@ test.describe('Verify reverse action', () => {
         await ui.transactionOverviewPage.clickButtonByUniqueCellValue('194250802', 'Storneren');
         await ui.transactionOverviewPage.inputTextareaByLabel('Omschrijving', 'Input value for only description');
         await ui.transactionOverviewPage.clickButtonByLabel('Opslaan');
-        await ui.transactionOverviewPage.verifyHeadingDialog('Transactie gestorneerd');
-        await ui.transactionOverviewPage.verifyContentDialog('Transactie no 194250802 is succesvol gestorneerd!');
+        await ui.transactionOverviewPage.verifyDialogHeading('Transactie gestorneerd');
+        await ui.transactionOverviewPage.verifyDialogContent('Transactie no 194250802 is succesvol gestorneerd!');
         await ui.transactionOverviewPage.clickButtonByLabel('Sluiten');
     });
 
@@ -44,8 +44,8 @@ test.describe('Verify reverse action', () => {
         await ui.transactionOverviewPage.selectDropdownOptionByLabel('Storno reden', 'Correctie gemaakt n.a.v. klacht IM');
         await ui.transactionOverviewPage.inputTextareaByLabel('Omschrijving', 'Update description');
         await ui.transactionOverviewPage.clickButtonByLabel('Opslaan');
-        await ui.transactionOverviewPage.verifyHeadingDialog('Transactie gestorneerd');
-        await ui.transactionOverviewPage.verifyContentDialog('Transactie no 194250802 is succesvol gestorneerd!');
+        await ui.transactionOverviewPage.verifyDialogHeading('Transactie gestorneerd');
+        await ui.transactionOverviewPage.verifyDialogContent('Transactie no 194250802 is succesvol gestorneerd!');
         await ui.transactionOverviewPage.clickButtonByLabel('Sluiten');
     });
 })

@@ -31,11 +31,11 @@ test('Verify archive profile successfully', async ({ page }) => {
     let docmumentTypes = ['AFAT - Afloop AT Controle Proces', 'ANAV - Aanmelding AVA'];
     await ui.maintenancePage.selectDropdownOptionsByLabel('Document type', docmumentTypes);
     await ui.maintenancePage.clickButtonByDescription('Opslaan');
-    await ui.maintenancePage.verifyHeadingDialog('Archief profiel toegevoegd');
-    await ui.maintenancePage.verifyContentDialog('Archief profiel succesvol toegevoegd');
+    await ui.maintenancePage.verifyDialogHeading('Archief profiel toegevoegd');
+    await ui.maintenancePage.verifyDialogContent('Archief profiel succesvol toegevoegd');
     await ui.maintenancePage.clickButtonByLabel('Sluiten');
     await ui.maintenancePage.clickRowByUniqueCellValue(description);
-    await ui.maintenancePage.verifyHeadingPage(/^Onderhoud *\/ *Archief profiel (\d+) *\/ *Details$/);
+    await ui.maintenancePage.verifyPageHeading(/^Onderhoud *\/ *Archief profiel (\d+) *\/ *Details$/);
     const expectedDescriptionRegex = new RegExp(`Omschrijving\\s*${description}`);
     await expect(page.getByText(expectedDescriptionRegex)).toBeVisible();
     await expect(page.getByText('Externe code  1234')).toBeVisible();

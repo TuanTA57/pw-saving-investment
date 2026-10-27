@@ -62,12 +62,12 @@ export abstract class CommonPage {
         await rowLocator.getByRole('button', { description: buttonDescription }).click();
     }
 
-    async verifyHeadingDialog(heading: string) {
+    async verifyDialogHeading(heading: string) {
         let headingDialogXpath = `//h2[contains(concat(' ', @class, ' '), ' mat-mdc-dialog-title ')]`;
         await expect(this.page.locator(headingDialogXpath)).toHaveText(heading);
     }
 
-    async verifyContentDialog(content: string) {
+    async verifyDialogContent(content: string) {
         let contentDialogXpath = `//mat-dialog-content//p`;
         await expect(this.page.locator(contentDialogXpath)).toHaveText(content);
     }
@@ -76,7 +76,7 @@ export abstract class CommonPage {
         await this.page.getByRole('button', { description: description }).click();
     }
 
-    async verifyHeadingPage(heading: string | RegExp) {
+    async verifyPageHeading(heading: string | RegExp) {
         let headingPageXpath = `//div[contains(concat(' ',@class, ' '), ' heading ')]//div[contains(concat(' ',@class, ' '), ' primary ')]`;
         await expect(this.page.locator(headingPageXpath)).toHaveText(heading);
     }
