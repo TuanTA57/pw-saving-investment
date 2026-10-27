@@ -1,4 +1,5 @@
 import { expect, Page } from '@playwright/test';
+import path = require('path');
 
 export abstract class CommonPage {
     page: Page;
@@ -67,7 +68,7 @@ export abstract class CommonPage {
         await expect(this.page.locator(headingDialogXpath)).toHaveText(heading);
     }
 
-    async verifyDialogContent(content: string) {
+    async verifyDialogContent(content: string | RegExp) {
         let contentDialogXpath = `//mat-dialog-content//p`;
         await expect(this.page.locator(contentDialogXpath)).toHaveText(content);
     }
@@ -84,6 +85,11 @@ export abstract class CommonPage {
     async verifyModalHeading(heading: string) {
         let headingModalXpath = `//mat-dialog-container//div[contains(concat(' ', @class, ' '), ' heading ') and normalize-space()='${heading}']`;
         await expect(this.page.locator(headingModalXpath)).toBeVisible();
+    }
+
+    async verifySectionTitleInForm(title: string) {
+        let sectionTitleXpath = `//mat-card-title[normalize-space()='${title}']`;
+        await expect(this.page.locator(sectionTitleXpath)).toBeVisible();
     }
 
     async selectTabByLabel(label: string) {
@@ -121,8 +127,19 @@ export abstract class CommonPage {
         await optionLocator.click();
     }
 
+    async selectRadioButtonByLabel(label: string, option: string) {
+        let radioButtonXpath = `(//label[normalize-space()='${label}']/following::mat-radio-button[.//label[normalize-space()='${option}']]//input[@type='radio'])[1]`;
+        await this.page.locator(radioButtonXpath).click();
+    }
+
     async clickButtonByLabel(label: string) {
         await this.page.getByRole('button', { name: label }).click();
+    }
+
+    async selectTypeAheadSearchOptionByLabel(label: string, option: string) {
+        await this.inputTextboxByLabel(label, option);
+        let optionXpath = `//div[@role='listbox']//mat-option[.//div[contains(concat(' ', @class, ' '), ' value ') and normalize-space()='${option}']]`;
+        await this.page.locator(optionXpath).click();
     }
 
     async inputTextboxByLabel(label: string, input: string) {
@@ -136,5 +153,11 @@ export abstract class CommonPage {
     async inputTextareaByLabel(label: string, input: string) {
         let textareaXpath = `(//label[normalize-space()='${label}']//following::textarea)[1]`;
         await this.page.locator(textareaXpath).fill(input);
+    }
+
+    async uploadFileByLabel(label: string, filePath: string) {
+        let inputXpath = `(//div[contains(concat(' ', @class, ' '), ' file-name ') and normalize-space()='${label}']/following::input[@type='file'])[1]`;
+        let absoluteFilePath = path.join(process.cwd(), filePath);
+        await this.page.locator(inputXpath).setInputFiles(absoluteFilePath);
     }
 }
