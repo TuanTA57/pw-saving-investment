@@ -20,7 +20,7 @@ test('Verify security profile successfully', async ({ page }) => {
     await ui.maintenancePage.selectTabByLabel('Beveiligings profiel');
     await expect(page.getByText('Onderhoud / Beveiligings profiel')).toBeVisible();
     await ui.maintenancePage.clickButtonByDescription('beveiligings profiel toevoegen');
-    await ui.maintenancePage.verifyHeadingModal('Beveiligingsprofiel');
+    await ui.maintenancePage.verifyModalHeading('Beveiligingsprofiel');
     const description = `Tuan - ${new Date().getTime()}`;
     await ui.maintenancePage.inputTextboxByLabel('Omschrijving', description);
     await ui.maintenancePage.inputTextboxByLabel('Externe code', description);

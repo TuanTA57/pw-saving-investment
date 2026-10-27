@@ -24,7 +24,7 @@ test('Verify archive profile successfully', async ({ page }) => {
     await expect(page.getByText('Onderhoud / Archief profiel')).toBeVisible();
 
     await ui.maintenancePage.clickButtonByDescription('Archief profiel toevoegen');
-    await ui.maintenancePage.verifyHeadingModal('Archief profiel');
+    await ui.maintenancePage.verifyModalHeading('Archief profiel');
     const description = `Tuan - ${new Date().getTime()}`;
     await ui.maintenancePage.inputTextboxByLabel('Omschrijving', description);
     await ui.maintenancePage.inputTextboxByLabel('Externe code', '1234');
@@ -34,7 +34,7 @@ test('Verify archive profile successfully', async ({ page }) => {
     await ui.maintenancePage.verifyHeadingDialog('Archief profiel toegevoegd');
     await ui.maintenancePage.verifyContentDialog('Archief profiel succesvol toegevoegd');
     await ui.maintenancePage.clickButtonByLabel('Sluiten');
-    await ui.maintenancePage.viewDetailsByUniqueCellValue(description);
+    await ui.maintenancePage.clickRowByUniqueCellValue(description);
     await ui.maintenancePage.verifyHeadingPage(/^Onderhoud *\/ *Archief profiel (\d+) *\/ *Details$/);
     const expectedDescriptionRegex = new RegExp(`Omschrijving\\s*${description}`);
     await expect(page.getByText(expectedDescriptionRegex)).toBeVisible();

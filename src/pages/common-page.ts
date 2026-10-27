@@ -52,7 +52,7 @@ export abstract class CommonPage {
         return this.page.locator(rowXpath);
     }
 
-    async viewDetailsByUniqueCellValue(cellValue: string) {
+    async clickRowByUniqueCellValue(cellValue: string) {
         let rowLocator = await this.getRowLocatorByUniqueCellValue(cellValue);
         await rowLocator.click();
     }
@@ -81,7 +81,7 @@ export abstract class CommonPage {
         await expect(this.page.locator(headingPageXpath)).toHaveText(heading);
     }
 
-    async verifyHeadingModal(heading: string) {
+    async verifyModalHeading(heading: string) {
         let headingModalXpath = `//mat-dialog-container//div[contains(concat(' ', @class, ' '), ' heading ') and normalize-space()='${heading}']`;
         await expect(this.page.locator(headingModalXpath)).toBeVisible();
     }
