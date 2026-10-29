@@ -1,7 +1,7 @@
 import { Page } from '@playwright/test';
 import { CommonPage } from './common-page';
 
-export class corporateActionsJobsPage extends CommonPage {
+export class CorporateActionsJobsPage extends CommonPage {
     constructor(page: Page) {
         super(page);
     }

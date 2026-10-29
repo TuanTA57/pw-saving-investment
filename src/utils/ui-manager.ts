@@ -3,7 +3,9 @@ import { LoginPage } from '../pages/login-page';
 import { HomePage } from '../pages/home-page';
 import { MaintenancePage } from '../pages/maintenance-page';
 import { TransactionOverviewPage } from '../pages/transaction-overview-page';
-import { corporateActionsJobsPage } from '../pages/corporate-actions-jobs-page';
+import { CorporateActionsJobsPage } from '../pages/corporate-actions-jobs-page';
+import { TransactionImportPage } from '../pages/transaction-import-page';
+import { TransactionImportSuccessPage } from '../pages/transaction-import-success-page';
 
 export class UiManager {
     page: Page;
@@ -11,7 +13,9 @@ export class UiManager {
     homePage: HomePage;
     maintenancePage: MaintenancePage;
     transactionOverviewPage: TransactionOverviewPage;
-    corporateActionsJobsPage: corporateActionsJobsPage;
+    transactionImportPage: TransactionImportPage;
+    transactionImportSuccessPage: TransactionImportSuccessPage;
+    corporateActionsJobsPage: CorporateActionsJobsPage;
 
     constructor(page: Page) {
         this.page = page;
@@ -19,6 +23,8 @@ export class UiManager {
         this.homePage = new HomePage(page);
         this.maintenancePage = new MaintenancePage(page);
         this.transactionOverviewPage = new TransactionOverviewPage(page);
-        this.corporateActionsJobsPage = new corporateActionsJobsPage(page);
+        this.transactionImportPage = new TransactionImportPage(page);
+        this.corporateActionsJobsPage = new CorporateActionsJobsPage(page);
+        this.transactionImportSuccessPage = new TransactionImportSuccessPage(page);
     }
 }

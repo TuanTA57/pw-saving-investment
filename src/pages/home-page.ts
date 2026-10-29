@@ -8,6 +8,5 @@ export class HomePage extends CommonPage {
 
     async onPage() {
         await expect(this.page.locator('.topicus-logo-text')).toBeVisible();
-
     }
 }
