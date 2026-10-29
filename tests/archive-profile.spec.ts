@@ -13,7 +13,7 @@ test('Verify archive profile successfully', async ({ page }) => {
     await page.goto(LOGIN_URL);
 
     await ui.loginPage.onPage();
-    await ui.loginPage.selectDropdownOptionByLabel('Select Domain', 'epic-test-client - Native application');
+    await ui.loginPage.selectDropdownOptionByLabel('Select domain', 'epic-test-client - Native application');
     await ui.loginPage.clickButtonByLabel('Login');
     await ui.loginPage.login(USERNAME, PASSWORD);
     await ui.homePage.onPage();
@@ -28,7 +28,7 @@ test('Verify archive profile successfully', async ({ page }) => {
     const description = `Tuan - ${new Date().getTime()}`;
     await ui.maintenancePage.inputTextboxByLabel('Omschrijving', description);
     await ui.maintenancePage.inputTextboxByLabel('Externe code', '1234');
-    let docmumentTypes = ['AFAT - Afloop AT Controle Proces', 'ANAV - Aanmelding AVA'];
+    let docmumentTypes = ['AFAT - Afloop AT controle proces', 'ANAV - Aanmelding AVA'];
     await ui.maintenancePage.selectDropdownOptionsByLabel('Document type', docmumentTypes);
     await ui.maintenancePage.clickButtonByDescription('Opslaan');
     await ui.maintenancePage.verifyDialogHeading('Archief profiel toegevoegd');

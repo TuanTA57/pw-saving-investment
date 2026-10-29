@@ -9,7 +9,7 @@ test.beforeEach('Setup', async({page}) => {
 
 test('Verify login successfully', async ({ page }) => {
     await page.goto(LOGIN_URL);
-    await loginPage.selectDropdownOptionByLabel('Select Domain', 'epic-test-client - Native application');
+    await loginPage.selectDropdownOptionByLabel('Select domain', 'epic-test-client - Native application');
     await loginPage.clickButtonByLabel('Login');
     await loginPage.login('Testautomatisering@able.eu', 'uCRwAtzz6tVezXrV');
     await expect(page.locator('.topicus-logo-text')).toBeVisible();

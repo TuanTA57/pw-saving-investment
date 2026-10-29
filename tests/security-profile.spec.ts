@@ -10,7 +10,7 @@ test.beforeEach('Setup', async ({ page }) => {
 test('Verify security profile successfully', async ({ page }) => {
     await page.goto(LOGIN_URL);
 
-    await ui.loginPage.selectDropdownOptionByLabel('Select Domain', 'epic-test-client - Native application');
+    await ui.loginPage.selectDropdownOptionByLabel('Select domain', 'epic-test-client - Native application');
     await ui.loginPage.clickButtonByLabel('Login');
     await ui.loginPage.login(USERNAME, PASSWORD);
 

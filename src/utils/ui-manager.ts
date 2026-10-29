@@ -6,6 +6,8 @@ import { TransactionOverviewPage } from '../pages/transaction-overview-page';
 import { CorporateActionsJobsPage } from '../pages/corporate-actions-jobs-page';
 import { TransactionImportPage } from '../pages/transaction-import-page';
 import { TransactionImportSuccessPage } from '../pages/transaction-import-success-page';
+import { SettlementTraspasoDetailsPage } from '../pages/settlement-traspaso-details-page';
+import { SettlementTraspasoMonitorPage } from '../pages/settlement-traspaso-monitor-page copy';
 
 export class UiManager {
     page: Page;
@@ -16,6 +18,8 @@ export class UiManager {
     transactionImportPage: TransactionImportPage;
     transactionImportSuccessPage: TransactionImportSuccessPage;
     corporateActionsJobsPage: CorporateActionsJobsPage;
+    settlementTraspasoDetails: SettlementTraspasoDetailsPage;
+    settlementTraspasoMonitor: SettlementTraspasoMonitorPage;
 
     constructor(page: Page) {
         this.page = page;
@@ -26,5 +30,7 @@ export class UiManager {
         this.transactionImportPage = new TransactionImportPage(page);
         this.corporateActionsJobsPage = new CorporateActionsJobsPage(page);
         this.transactionImportSuccessPage = new TransactionImportSuccessPage(page);
+        this.settlementTraspasoDetails = new SettlementTraspasoDetailsPage(page);
+        this.settlementTraspasoMonitor = new SettlementTraspasoMonitorPage(page);
     }
 }

@@ -160,4 +160,8 @@ export abstract class CommonPage {
         let absoluteFilePath = path.join(process.cwd(), filePath);
         await this.page.locator(inputXpath).setInputFiles(absoluteFilePath);
     }
+
+    async selectDatePickerByLabel(label: string, dd: string, mm: string, yyyy: string) {
+        
+    }
 }
