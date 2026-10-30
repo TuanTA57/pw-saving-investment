@@ -1,22 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { sortJson } from '../src/utils/json-utils';
-import { LOGIN_URL, PASSWORD, USERNAME } from '../src/utils/constant-utils';
-import { UiManager } from '../src/utils/ui-manager';
+import { adminTest } from '../src/fixtures/admin-fixture';
 
-let ui: UiManager;
-
-test.beforeEach('Setup', async ({ page }) => {
-    ui = new UiManager(page);
-})
-
-test('Verify archive profile successfully', async ({ page }) => {
-    await page.goto(LOGIN_URL);
-
-    await ui.loginPage.onPage();
-    await ui.loginPage.selectDropdownOptionByLabel('Select domain', 'epic-test-client - Native application');
-    await ui.loginPage.clickButtonByLabel('Login');
-    await ui.loginPage.login(USERNAME, PASSWORD);
-    await ui.homePage.onPage();
+adminTest('Verify archive profile successfully', async ({ page, ui }) => {
     await ui.homePage.selectMenuByLabel('Adviseur', 'Onderhoud');
 
     await ui.maintenancePage.onPage();
