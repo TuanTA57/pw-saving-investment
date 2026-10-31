@@ -8,8 +8,10 @@ import { TransactionImportPage } from '../pages/transaction-import-page';
 import { TransactionImportSuccessPage } from '../pages/transaction-import-success-page';
 import { SettlementTraspasoDetailsPage } from '../pages/settlement-traspaso-details-page';
 import { SettlementTraspasoMonitorPage } from '../pages/settlement-traspaso-monitor-page copy';
+import { TFunction } from 'i18next';
 
 export class UiManager {
+    t: TFunction;
     page: Page;
     loginPage: LoginPage;
     homePage: HomePage;
@@ -21,16 +23,16 @@ export class UiManager {
     settlementTraspasoDetails: SettlementTraspasoDetailsPage;
     settlementTraspasoMonitor: SettlementTraspasoMonitorPage;
 
-    constructor(page: Page) {
+    constructor(page: Page, t: TFunction) {
         this.page = page;
-        this.loginPage = new LoginPage(page);
-        this.homePage = new HomePage(page);
-        this.maintenancePage = new MaintenancePage(page);
-        this.transactionOverviewPage = new TransactionOverviewPage(page);
-        this.transactionImportPage = new TransactionImportPage(page);
-        this.corporateActionsJobsPage = new CorporateActionsJobsPage(page);
-        this.transactionImportSuccessPage = new TransactionImportSuccessPage(page);
-        this.settlementTraspasoDetails = new SettlementTraspasoDetailsPage(page);
-        this.settlementTraspasoMonitor = new SettlementTraspasoMonitorPage(page);
+        this.loginPage = new LoginPage(page, t);
+        this.homePage = new HomePage(page, t);
+        this.maintenancePage = new MaintenancePage(page, t);
+        this.transactionOverviewPage = new TransactionOverviewPage(page, t);
+        this.transactionImportPage = new TransactionImportPage(page, t);
+        this.corporateActionsJobsPage = new CorporateActionsJobsPage(page, t);
+        this.transactionImportSuccessPage = new TransactionImportSuccessPage(page, t);
+        this.settlementTraspasoDetails = new SettlementTraspasoDetailsPage(page, t);
+        this.settlementTraspasoMonitor = new SettlementTraspasoMonitorPage(page, t);
     }
 }

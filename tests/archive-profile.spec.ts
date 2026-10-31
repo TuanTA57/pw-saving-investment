@@ -2,8 +2,9 @@ import { expect } from '@playwright/test';
 import { sortJson } from '../src/utils/json-utils';
 import { adminTest } from '../src/fixtures/admin-fixture';
 
-adminTest('Verify archive profile successfully', async ({ page, ui }) => {
-    await ui.homePage.selectMenuByLabel('Adviseur', 'Onderhoud');
+adminTest('Verify archive profile successfully', async ({ page, ui, t }) => {
+    
+    await ui.homePage.selectMenuByLabel(t('menu.advisor'), t('menu.maintenance'));
 
     await ui.maintenancePage.onPage();
     await ui.maintenancePage.selectTabByLabel('Archief profiel');

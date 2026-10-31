@@ -1,10 +1,14 @@
 import { expect, Page } from '@playwright/test';
+import { TFunction } from 'i18next';
 import path = require('path');
 
 export abstract class CommonPage {
     page: Page;
-    constructor(page: Page) {
+    t: TFunction;
+    
+    constructor(page: Page, t: TFunction) {
         this.page = page;
+        this.t = t;
     }
 
     abstract onPage(): void;

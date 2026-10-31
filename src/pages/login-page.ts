@@ -1,15 +1,16 @@
 import { expect, Page } from '@playwright/test';
 import { CommonPage } from './common-page';
+import { TFunction } from 'i18next';
 
 export class LoginPage extends CommonPage {
-    constructor(page: Page) {
-        super(page);
+    constructor(page: Page, t: TFunction) {
+        super(page, t);
     }
 
     async login(username: string, password: string) {
-        await this.inputTextboxByLabel('User Account', username);
-        await this.inputTextboxByLabel('Password', password);
-        await this.clickButtonByLabel('Sign in');
+        await this.inputTextboxByLabel(this.t("field.username"), username);
+        await this.inputTextboxByLabel(this.t("field.password"), password);
+        await this.clickButtonByLabel(this.t("button.login"));
     }
 
     async onPage() {

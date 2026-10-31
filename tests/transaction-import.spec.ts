@@ -9,7 +9,7 @@ test.describe('Verify import action', () => {
         ui = new UiManager(page);
         await page.goto(LOGIN_URL);
         await ui.loginPage.onPage();
-        await ui.loginPage.selectDropdownOptionByLabel('Select domain', 'Topicus AD');
+        await ui.loginPage.selectDropdownOptionByLabel('Select domain', 'epic-test-client - Native application');
         await ui.loginPage.clickButtonByLabel('Login');
         await ui.loginPage.login(USERNAME, PASSWORD);
         await ui.homePage.onPage();

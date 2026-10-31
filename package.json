@@ -16,6 +16,7 @@
     "@types/node": "^26.6.5"
   },
   "dependencies": {
-    "dotenv": "^18.0.9"
+    "dotenv": "^18.0.9",
+    "i18next": "^26.5.12"
   }
 }

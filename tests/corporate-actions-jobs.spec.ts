@@ -26,6 +26,7 @@ test.describe('Verify jobs screen', () => {
         await ui.corporateActionsJobsPage.clickButtonByLabel('Volgende');
         await ui.corporateActionsJobsPage.verifySectionTitleInForm('Schema');
         await ui.corporateActionsJobsPage.clickButtonByLabel('Opslaan');
+        
         await ui.corporateActionsJobsPage.verifyDialogHeading('Job aangemaakt');
         await ui.corporateActionsJobsPage.verifyDialogContent(/^Job (\d+) is succesvol aangemaakt.$/);
         await ui.corporateActionsJobsPage.clickButtonByLabel('Sluiten');

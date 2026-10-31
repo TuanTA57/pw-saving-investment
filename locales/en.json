@@ -1,0 +1,19 @@
+{
+    "menu": {
+        "advisor": "Advisor",
+        "maintenance": "Maintenance"
+    },
+    "tab": {
+        "archiveProfile": "Archive Profile"
+    },
+    "pageHeader": {
+        "maintenanceOverview": "Maintenance / Archive Profile"
+    },
+    "field": {
+        "username": "User Account",
+        "password": "Password"
+    },
+    "button": {
+        "login": "Sign in"
+    }
+}
