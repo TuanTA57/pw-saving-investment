@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test';
 import { sortJson } from '../src/utils/json-utils';
 import { adminTest } from '../src/fixtures/admin-fixture';
+import { BASE_URL } from '../src/utils/constant-utils';
 
 adminTest('Verify archive profile successfully', async ({ page, ui, t }) => {
     
@@ -15,9 +16,22 @@ adminTest('Verify archive profile successfully', async ({ page, ui, t }) => {
     const description = `Tuan - ${new Date().getTime()}`;
     await ui.maintenancePage.inputTextboxByLabel('Omschrijving', description);
     await ui.maintenancePage.inputTextboxByLabel('Externe code', '1234');
-    let docmumentTypes = ['AFAT - Afloop AT controle proces', 'ANAV - Aanmelding AVA'];
-    await ui.maintenancePage.selectDropdownOptionsByLabel('Document type', docmumentTypes);
+    let documentTypes = ['AFAT - Afloop AT controle proces', 'ANAV - Aanmelding AVA'];
+    await ui.maintenancePage.selectDropdownOptionsByLabel('Document type', documentTypes);
+
+    const createArchiveProfileResponsePromise = page.waitForResponse('**/advisor/archiveprofile');
+
     await ui.maintenancePage.clickButtonByDescription('Opslaan');
+
+    const createArchiveProfileResponse = await createArchiveProfileResponsePromise;
+    const createArchiveProfileResponseBody = await createArchiveProfileResponse.json();
+    const entity = createArchiveProfileResponseBody.archiveProfile.find((v: { entity: string }) => v.entity === 'NL');
+    let url = `${BASE_URL}/advisor/archiveprofile/${encodeURIComponent(JSON.stringify(entity))}`;
+    let deleteArchiveProfileBody = {
+        archiveProfile: entity
+    };
+
+    const token = await page.sessionStorage.getItem('accessToken');
     await ui.maintenancePage.verifyDialogHeading('Archief profiel toegevoegd');
     await ui.maintenancePage.verifyDialogContent('Archief profiel succesvol toegevoegd');
     await ui.maintenancePage.clickButtonByLabel('Sluiten');
@@ -27,9 +41,23 @@ adminTest('Verify archive profile successfully', async ({ page, ui, t }) => {
     await expect(page.getByText(expectedDescriptionRegex)).toBeVisible();
     await expect(page.getByText('Externe code  1234')).toBeVisible();
     const actualDocumentTypeValues = await ui.maintenancePage.getExpansionTableDataByLabel('Document types', ['Type']);
-    let expectedDocumentTypes = docmumentTypes.map(value => {
+    let expectedDocumentTypes = documentTypes.map(value => {
         return { Type: value }
     });
-    expect(actualDocumentTypeValues.length).toEqual(docmumentTypes.length);
+    expect(actualDocumentTypeValues.length).toEqual(documentTypes.length);
     expect(sortJson(actualDocumentTypeValues)).toEqual(expect.arrayContaining(sortJson(expectedDocumentTypes)));
+
+    // Delete via browser fetch: the backend's multi-line CSP response header is rejected by Node's HTTP parser
+    await page.evaluate(async ({ url, body, token }) => {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/vnd.+json,application/vnd.v2+json',
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json;charset=UTF-8'
+            },
+            body: JSON.stringify(body)
+        });
+        return response.status;
+    }, { url, body: deleteArchiveProfileBody, token });
 });
