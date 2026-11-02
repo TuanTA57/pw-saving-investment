@@ -1,9 +1,9 @@
 import { expect } from '@playwright/test';
 import { sortJson } from '../src/utils/json-utils';
 import { adminTest } from '../src/fixtures/admin-fixture';
-import { BASE_URL } from '../src/utils/constant-utils';
 
-adminTest('Verify archive profile successfully', async ({ page, ui, t }) => {
+
+adminTest('Verify archive profile successfully', async ({ page, ui, t, api }) => {
     
     await ui.homePage.selectMenuByLabel(t('menu.advisor'), t('menu.maintenance'));
 
@@ -19,19 +19,12 @@ adminTest('Verify archive profile successfully', async ({ page, ui, t }) => {
     let documentTypes = ['AFAT - Afloop AT controle proces', 'ANAV - Aanmelding AVA'];
     await ui.maintenancePage.selectDropdownOptionsByLabel('Document type', documentTypes);
 
-    const createArchiveProfileResponsePromise = page.waitForResponse('**/advisor/archiveprofile');
+    const createArchiveProfileResponsePromise = ui.maintenancePage.listenToCreateArchiveProfileResponse();
 
     await ui.maintenancePage.clickButtonByDescription('Opslaan');
 
-    const createArchiveProfileResponse = await createArchiveProfileResponsePromise;
-    const createArchiveProfileResponseBody = await createArchiveProfileResponse.json();
-    const entity = createArchiveProfileResponseBody.archiveProfile.find((v: { entity: string }) => v.entity === 'NL');
-    let url = `${BASE_URL}/advisor/archiveprofile/${encodeURIComponent(JSON.stringify(entity))}`;
-    let deleteArchiveProfileBody = {
-        archiveProfile: entity
-    };
-
-    const token = await page.sessionStorage.getItem('accessToken');
+    const entity = ui.maintenancePage.getArchiveProfileEntity(createArchiveProfileResponsePromise);
+    
     await ui.maintenancePage.verifyDialogHeading('Archief profiel toegevoegd');
     await ui.maintenancePage.verifyDialogContent('Archief profiel succesvol toegevoegd');
     await ui.maintenancePage.clickButtonByLabel('Sluiten');
@@ -47,17 +40,5 @@ adminTest('Verify archive profile successfully', async ({ page, ui, t }) => {
     expect(actualDocumentTypeValues.length).toEqual(documentTypes.length);
     expect(sortJson(actualDocumentTypeValues)).toEqual(expect.arrayContaining(sortJson(expectedDocumentTypes)));
 
-    // Delete via browser fetch: the backend's multi-line CSP response header is rejected by Node's HTTP parser
-    await page.evaluate(async ({ url, body, token }) => {
-        const response = await fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/vnd.+json,application/vnd.v2+json',
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json;charset=UTF-8'
-            },
-            body: JSON.stringify(body)
-        });
-        return response.status;
-    }, { url, body: deleteArchiveProfileBody, token });
+    await api.deleteArchiveProfile(entity);
 });

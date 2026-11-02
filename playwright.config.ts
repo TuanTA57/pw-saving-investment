@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
 
-let currentEnv = process.env.TEST_ENV ?? 'local';
+let currentEnv = process.env.TEST_ENV ?? 'staging';
 
 dotenv.config({ path: path.resolve(__dirname, `env/.env.${currentEnv}`) });
 
@@ -33,7 +33,7 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'], 
-        locale: "en"
+        locale: "nl"
       },
     }
   ],

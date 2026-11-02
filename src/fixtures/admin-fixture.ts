@@ -4,10 +4,12 @@ import { LOGIN_URL, USERNAME, PASSWORD, LOGIN_DOMAIN } from '../utils/constant-u
 import i18next, { TFunction } from 'i18next';
 import en from '../../locales/en.json';
 import nl from '../../locales/nl.json';
+import { ApiUtils } from '../api/api-utils';
 
 type AdminFixture = {
     ui: UiManager,
-    t: TFunction
+    t: TFunction,
+    api: ApiUtils
 }
 
 export const adminTest = test.extend<AdminFixture>({
@@ -35,5 +37,9 @@ export const adminTest = test.extend<AdminFixture>({
             }
         });
         await use(i18nInstance.t.bind(i18nInstance))
+    },
+    api: async ({ page }, use) => {
+        let api = new ApiUtils(page);
+        use(api);
     }
 })
