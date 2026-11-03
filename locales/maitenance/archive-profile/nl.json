@@ -1,0 +1,19 @@
+{
+    "menu": {
+        "advisor": "Adviseur",
+        "maintenance": "Onderhoud"
+    },
+    "tab": {
+        "archiveProfile": "Archief profiel"
+    },
+    "pageHeader": {
+        "maintenanceOverview": "Onderhoud / Archief profiel"
+    },
+    "field": {
+        "username": "Gebruikersaccount",
+        "password": "Wachtwoord"
+    },
+    "button": {
+        "login": "Aanmelden"
+    }
+}

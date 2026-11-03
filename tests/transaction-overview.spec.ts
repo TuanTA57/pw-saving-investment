@@ -1,12 +1,13 @@
-import { test, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { LOGIN_URL, PASSWORD, USERNAME } from '../src/utils/constant-utils';
 import { UiManager } from '../src/utils/ui-manager';
+import { adminTest } from '../src/fixtures/admin-fixture';
 
 let ui: UiManager;
 
-test.describe('Verify reverse action', () => {
-    test.beforeEach('Setup', async ({ page }) => {
-        ui = new UiManager(page);
+adminTest.describe('Verify reverse action', () => {
+    adminTest.beforeEach('Setup', async ({ page, t }) => {
+        ui = new UiManager(page, t);
         await page.goto(LOGIN_URL);
         await ui.loginPage.onPage();
         await ui.loginPage.selectDropdownOptionByLabel('Select domain', 'epic-test-client - Native application');
@@ -17,7 +18,7 @@ test.describe('Verify reverse action', () => {
         await ui.transactionOverviewPage.onPage();
     });
 
-    test('Verify reverse transaction when selecting reversal reason', async ({ page }) => {
+    adminTest('Verify reverse transaction when selecting reversal reason', async ({ page }) => {
         await ui.transactionOverviewPage.clickButtonByUniqueCellValue('194250802', 'Storneren');
         await ui.transactionOverviewPage.verifyDialogHeading('Storneer transactie');
         await ui.transactionOverviewPage.verifyDialogContent('Weet u zeker dat u transactie no 194250802 wilt storneren?');
@@ -30,7 +31,7 @@ test.describe('Verify reverse action', () => {
         await ui.transactionOverviewPage.clickButtonByLabel('Sluiten');
     });
 
-    test('Verify reverse transaction when inputing only description', async () => {
+    adminTest('Verify reverse transaction when inputing only description', async () => {
         await ui.transactionOverviewPage.clickButtonByUniqueCellValue('194250802', 'Storneren');
         await ui.transactionOverviewPage.inputTextareaByLabel('Omschrijving', 'Input value for only description');
         await ui.transactionOverviewPage.clickButtonByLabel('Opslaan');
@@ -39,7 +40,7 @@ test.describe('Verify reverse action', () => {
         await ui.transactionOverviewPage.clickButtonByLabel('Sluiten');
     });
 
-    test('Verify reverse transaction when selecting reversal reason and modifying description', async () => {
+    adminTest('Verify reverse transaction when selecting reversal reason and modifying description', async () => {
         await ui.transactionOverviewPage.clickButtonByUniqueCellValue('194250802', 'Storneren');
         await ui.transactionOverviewPage.selectDropdownOptionByLabel('Storno reden', 'Correctie gemaakt n.a.v. klacht IM');
         await ui.transactionOverviewPage.inputTextareaByLabel('Omschrijving', 'Update description');

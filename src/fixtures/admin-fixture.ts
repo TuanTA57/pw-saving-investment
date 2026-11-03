@@ -2,8 +2,8 @@ import test from '@playwright/test';
 import { UiManager } from '../utils/ui-manager';
 import { LOGIN_URL, USERNAME, PASSWORD, LOGIN_DOMAIN } from '../utils/constant-utils';
 import i18next, { TFunction } from 'i18next';
-import en from '../../locales/en.json';
-import nl from '../../locales/nl.json';
+import en from '../../locales/app/en.json';
+import nl from '../../locales/app/nl.json';
 import { ApiUtils } from '../api/api-utils';
 
 type AdminFixture = {
@@ -19,7 +19,7 @@ export const adminTest = test.extend<AdminFixture>({
         await page.goto(LOGIN_URL);
         let ui = new UiManager(page, t);
         await ui.loginPage.onPage();
-        await ui.loginPage.selectDropdownOptionByLabel('Select Domain', LOGIN_DOMAIN);
+        await ui.loginPage.selectDropdownOptionByLabel('Select domain', LOGIN_DOMAIN);
         await ui.loginPage.clickButtonByLabel('Login');
         await ui.loginPage.login(USERNAME, PASSWORD);
         await ui.homePage.onPage();

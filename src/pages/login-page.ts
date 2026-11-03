@@ -8,9 +8,9 @@ export class LoginPage extends CommonPage {
     }
 
     async login(username: string, password: string) {
-        await this.inputTextboxByLabel(this.t("field.username"), username);
-        await this.inputTextboxByLabel(this.t("field.password"), password);
-        await this.clickButtonByLabel(this.t("button.login"));
+        await this.inputTextboxByLabel(this.t('field.username'), username);
+        await this.inputTextboxByLabel(this.t('field.password'), password);
+        await this.clickButtonByLabel(this.t('button.login'));
     }
 
     async onPage() {

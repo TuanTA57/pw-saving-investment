@@ -1,13 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { LOGIN_URL, PASSWORD, USERNAME } from '../src/utils/constant-utils';
 import { UiManager } from '../src/utils/ui-manager';
+import { adminTest } from '../src/fixtures/admin-fixture';
 let ui: UiManager;
 
-test.beforeEach('Setup', async ({ page }) => {
-    ui = new UiManager(page);
+adminTest.beforeEach('Setup', async ({ page, t }) => {
+    ui = new UiManager(page, t);
 });
 
-test('Verify security profile successfully', async ({ page }) => {
+adminTest('Verify security profile successfully', async ({ page }) => {
     await page.goto(LOGIN_URL);
 
     await ui.loginPage.selectDropdownOptionByLabel('Select domain', 'epic-test-client - Native application');

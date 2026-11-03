@@ -1,12 +1,13 @@
 import { test} from '@playwright/test';
 import { LOGIN_URL, PASSWORD, USERNAME } from '../src/utils/constant-utils';
 import { UiManager } from '../src/utils/ui-manager';
+import { adminTest } from '../src/fixtures/admin-fixture';
 
 let ui: UiManager;
 
-test.describe('Verify jobs screen', () => {
-    test.beforeEach('Setup', async ({ page }) => {
-        ui = new UiManager(page);
+adminTest.describe('Verify jobs screen', () => {
+    adminTest.beforeEach('Setup', async ({ page, t}) => {
+        ui = new UiManager(page, t);
         await page.goto(LOGIN_URL);
         await ui.loginPage.onPage();
         await ui.loginPage.selectDropdownOptionByLabel('Select domain', 'epic-test-client - Native application');
@@ -17,7 +18,7 @@ test.describe('Verify jobs screen', () => {
         await ui.corporateActionsJobsPage.onPage();
     });
 
-    test('Verify active bank savings accounts job', async () => {
+    adminTest('Verify active bank savings accounts job', async () => {
         await ui.corporateActionsJobsPage.inputTextboxByLabel('Zoeken', 'Actieve bankspaarrekeningen');
         await ui.corporateActionsJobsPage.clickRowByUniqueCellValue('Actieve bankspaarrekeningen');
         await ui.corporateActionsJobsPage.verifyPageHeading('Actieve bankspaarrekeningen');
@@ -32,7 +33,7 @@ test.describe('Verify jobs screen', () => {
         await ui.corporateActionsJobsPage.clickButtonByLabel('Sluiten');
     });
 
-    test('Verify fiscal control bank savings accounts job', async () => {
+    adminTest('Verify fiscal control bank savings accounts job', async () => {
         await ui.corporateActionsJobsPage.inputTextboxByLabel('Zoeken', 'Fiscale controle bankspaarrekeningen');
         await ui.corporateActionsJobsPage.clickRowByUniqueCellValue('Fiscale controle bankspaarrekeningen');
         await ui.corporateActionsJobsPage.verifyPageHeading('Fiscale controle bankspaarrekeningen');
