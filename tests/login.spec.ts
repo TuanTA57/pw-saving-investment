@@ -4,7 +4,7 @@ import { LOGIN_DOMAIN, LOGIN_URL, PASSWORD, USERNAME } from '../src/utils/consta
 
 let loginPage: LoginPage;
 test.beforeEach('Setup', async({page}) => {
-    loginPage = new LoginPage(page);
+    // loginPage = new LoginPage(page);
 })
 
 test('Verify login successfully', async ({ page }) => {
