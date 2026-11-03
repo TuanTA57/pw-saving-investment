@@ -20,5 +20,4 @@ export class MaintenancePage extends CommonPage {
         const createArchiveProfileResponseBody = await createArchiveProfileResponse.json();
         return createArchiveProfileResponseBody.archiveProfile.find((v: { entity: string }) => v.entity === 'NL');
     }
-
 }

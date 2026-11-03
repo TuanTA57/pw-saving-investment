@@ -13,11 +13,13 @@ type AdminFixture = {
 }
 
 export const adminTest = test.extend<AdminFixture>({
-    ui: async ({ page, t }, use) => {
-        let ui = new UiManager(page, t);
+    ui: async ({ page, locale, t }, use) => {
+        const lang = locale;
+        await page.addInitScript((lang: string) => localStorage.setItem('lang', lang), lang);
         await page.goto(LOGIN_URL);
+        let ui = new UiManager(page, t);
         await ui.loginPage.onPage();
-        await ui.loginPage.selectDropdownOptionByLabel('Select domain', LOGIN_DOMAIN);
+        await ui.loginPage.selectDropdownOptionByLabel('Select Domain', LOGIN_DOMAIN);
         await ui.loginPage.clickButtonByLabel('Login');
         await ui.loginPage.login(USERNAME, PASSWORD);
         await ui.homePage.onPage();

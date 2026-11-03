@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
 
-let currentEnv = process.env.TEST_ENV ?? 'staging';
+let currentEnv = process.env.TEST_ENV ?? 'local';
 
 dotenv.config({ path: path.resolve(__dirname, `env/.env.${currentEnv}`) });
 
@@ -22,8 +22,6 @@ export default defineConfig({
     ignoreHTTPSErrors: true,
     testIdAttribute: 'data-test',
     launchOptions: {
-      //disable angular animation
-      // TODO: remove --disable-web-security later, added temporarily to bypass web security like manual `chrome.exe --disable-web-security`
       args: ['--disable-blink-features=LayoutInstabilityAPI', '--disable-web-security']
     }
 
@@ -33,7 +31,7 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'], 
-        locale: "nl"
+        locale: 'nl'
       },
     }
   ],

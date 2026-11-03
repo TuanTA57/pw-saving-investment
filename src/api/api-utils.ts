@@ -27,5 +27,4 @@ export class ApiUtils {
             return response.status;
         }, { url, body: deleteArchiveProfileBody, token });
     }
-
 }
