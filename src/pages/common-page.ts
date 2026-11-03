@@ -67,7 +67,7 @@ export abstract class CommonPage {
         await rowLocator.getByRole('button', { description: buttonDescription }).click();
     }
 
-    async verifyDialogHeading(heading: string) {
+    async verifyDialogHeading(heading: string | RegExp) {
         let headingDialogXpath = `//h2[contains(concat(' ', @class, ' '), ' mat-mdc-dialog-title ')]`;
         await expect(this.page.locator(headingDialogXpath)).toHaveText(heading);
     }
@@ -86,9 +86,9 @@ export abstract class CommonPage {
         await expect(this.page.locator(headingPageXpath)).toHaveText(heading);
     }
 
-    async verifyModalHeading(heading: string) {
-        let headingModalXpath = `//mat-dialog-container//div[contains(concat(' ', @class, ' '), ' heading ') and normalize-space()='${heading}']`;
-        await expect(this.page.locator(headingModalXpath)).toBeVisible();
+    async verifyModalHeading(heading: string | RegExp) {
+        let headingModalXpath = `//mat-dialog-container//div[contains(concat(' ', @class, ' '), ' heading ')]`;
+        await expect(this.page.locator(headingModalXpath)).toHaveText(heading);
     }
 
     async verifySectionTitleInForm(title: string) {
